@@ -1,0 +1,6 @@
+model_name,status,accuracy,precision,recall,f1,roc_auc,inference_time_seconds,notes
+Logistic Regression,completed,0.765,0.6266666666666667,0.29375,0.4,0.7366051136363635,0.00013658299576491117,
+Random Forest,completed,0.7216666666666667,0.472,0.36875,0.41403508771929826,0.7052982954545455,0.05265154200606048,
+TabPFN,completed,0.7433333333333333,0.56,0.175,0.26666666666666666,0.7406392045454546,77.96124299999792,Training capped at 750 rows; inference batch size 10; device auto.
+SAP-RPT-1 OSS (HF),completed,0.7433333333333333,0.5714285714285714,0.15,0.2376237623762376,0.6840482954545456,68.7744401670061,Training capped at 256 rows; context 256; bagging 1; inference batch size 10.
+SAP-RPT-1 AI Core,skipped_if_not_configured,,,,,,,SAP-RPT-1 skipped: credentials are not configured. See .env.example for the required variables.
