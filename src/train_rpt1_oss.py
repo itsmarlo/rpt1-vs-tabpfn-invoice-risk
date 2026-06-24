@@ -46,7 +46,7 @@ def train_rpt1_oss(
     """Run SAP-RPT-1 OSS when installed and authenticated with Hugging Face."""
     output_path = Path(results_dir) / "predictions_rpt1_oss.csv"
     try:
-        from sap_rpt_oss import SAP_RPT_OSS_Classifier
+        from sap_rpt_oss import SAP_RPT_OSS_Classifier  # type: ignore[import-not-found]
     except ImportError:
         message = (
             "SAP-RPT-1 OSS skipped: optional package not installed. "
