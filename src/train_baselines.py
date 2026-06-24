@@ -5,7 +5,7 @@ from time import perf_counter
 from typing import Any
 
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 
 from src.evaluate import calculate_classification_metrics
@@ -36,7 +36,7 @@ def train_classic_baselines(
     results_dir: str | Path,
     random_state: int = 42,
 ) -> list[dict[str, Any]]:
-    """Fit logistic regression and random forest on the shared split."""
+    """Fit classic machine-learning baselines on the shared split."""
     models = {
         "Logistic Regression": LogisticRegression(max_iter=1_000, random_state=random_state),
         "Random Forest": RandomForestClassifier(
@@ -46,10 +46,17 @@ def train_classic_baselines(
             random_state=random_state,
             n_jobs=-1,
         ),
+        "Gradient Boosting": GradientBoostingClassifier(
+            n_estimators=150,
+            learning_rate=0.05,
+            max_depth=3,
+            random_state=random_state,
+        ),
     }
     filenames = {
         "Logistic Regression": "predictions_logistic_regression.csv",
         "Random Forest": "predictions_random_forest.csv",
+        "Gradient Boosting": "predictions_gradient_boosting.csv",
     }
     metrics_rows: list[dict[str, Any]] = []
     destination = Path(results_dir)
@@ -76,4 +83,3 @@ def train_classic_baselines(
         )
 
     return metrics_rows
-

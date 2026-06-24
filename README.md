@@ -20,6 +20,7 @@ open items, disputes, purchase orders, credit scores, and dunning levels.
 |---|---|---|
 | Logistic Regression | Interpretable classic baseline | Yes |
 | Random Forest | Nonlinear classic baseline | Yes |
+| Gradient Boosting | Sequential tree ensemble baseline | Yes |
 | TabPFN | Executable tabular foundation-model baseline | Yes, when its package and model weights are available |
 | SAP-RPT-1 OSS | Hugging Face research checkpoint | Optionally, with gated access and substantial hardware |
 | SAP-RPT-1 AI Core | Enterprise integration boundary | Only with SAP infrastructure, credentials, and an implemented API contract |
@@ -113,6 +114,7 @@ The `results/` directory contains:
 - `metrics_comparison.csv`: metrics and execution status for every model
 - `predictions_logistic_regression.csv`: row-level baseline predictions
 - `predictions_random_forest.csv`: row-level baseline predictions
+- `predictions_gradient_boosting.csv`: row-level baseline predictions
 - `predictions_tabpfn.csv`: TabPFN predictions, or an empty schema if skipped
 - `predictions_rpt1_oss.csv`: local RPT-1 OSS predictions, or an empty schema
 - `confusion_matrix_tabpfn.png`: TabPFN matrix, or a clear skipped placeholder
