@@ -1,7 +1,7 @@
 # RPT-1 vs TabPFN: Invoice Payment Risk
 
-An interview-ready machine-learning project that predicts whether an accounts
-receivable invoice will be paid late using realistic synthetic SAP-style data.
+This repository compares tabular machine-learning approaches for predicting
+late invoice payment risk on synthetic SAP-style accounts receivable data.
 
 ## Business problem
 
@@ -30,6 +30,24 @@ SAP-specific relational foundation model concept, SAP-RPT-1. Since SAP-RPT-1
 access requires SAP infrastructure and credentials, this repository provides a
 clean integration interface and keeps the full local experiment runnable with
 TabPFN and classic ML baselines.
+
+## Current results
+
+The checked-in results were generated from the included synthetic dataset with a
+stratified 80/20 train/test split.
+
+| Model | Accuracy | F1 | ROC AUC |
+|---|---:|---:|---:|
+| Logistic Regression | 0.765 | 0.400 | 0.737 |
+| Random Forest | 0.722 | 0.414 | 0.705 |
+| Gradient Boosting | 0.762 | 0.353 | 0.715 |
+| TabPFN | 0.743 | 0.267 | 0.741 |
+| SAP-RPT-1 OSS | 0.743 | 0.238 | 0.684 |
+
+TabPFN has the strongest ROC AUC in this run, while Logistic Regression has the
+highest accuracy and Random Forest has the highest F1 score. The SAP-RPT-1 OSS
+result uses a small local context size intended for developer machines, not the
+larger hardware configuration recommended for best model performance.
 
 ## Setup
 
@@ -154,6 +172,18 @@ final comparison contains a `SAP-RPT-1 AI Core` row with null metrics and
   analysis, or cost-sensitive decision policy is included.
 - SAP-RPT-1 inference requires a verified SAP AI Core API contract and access.
 
+## Design notes
+
+- `invoice_id` is retained in exported data and prediction files for traceability
+  but excluded from model features.
+- `customer_id` is also excluded from model features because it is a synthetic
+  high-cardinality identifier and would add many one-hot columns without a
+  stable business signal.
+- All executable models use the same train/test split.
+- Preprocessing is fit only on the training partition to avoid leakage.
+- Optional foundation-model integrations fail gracefully and write skipped rows
+  instead of breaking the local baseline workflow.
+
 ## Next steps
 
 1. Replace the synthetic CSV with de-identified, time-stamped ERP extracts.
@@ -162,15 +192,3 @@ final comparison contains a `SAP-RPT-1 AI Core` row with null metrics and
 4. Add relational context such as customer history, payment events, and disputes.
 5. Implement `RPT1Client.predict` against verified SAP documentation and compare
    all models on the same held-out invoice set.
-
-## Interview talking points
-
-- Why a simple logistic model remains valuable for explainability and governance.
-- Why a shared split and leakage-safe preprocessing matter for a fair comparison.
-- How foundation models change the tradeoff between task-specific training and
-  in-context prediction.
-- Why `invoice_id` is excluded and why real deployments need temporal validation.
-- How the optional integration boundary keeps credentials and cloud access out
-  of the local developer workflow.
-- Which metric should drive collections decisions and how business costs affect
-  the operating threshold.
