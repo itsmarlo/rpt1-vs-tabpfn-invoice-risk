@@ -22,6 +22,11 @@ def _write_empty_predictions(path: Path) -> None:
     ).to_csv(path, index=False)
 
 
+def write_empty_rpt1_oss_predictions(path: str | Path) -> None:
+    """Write the stable empty SAP-RPT-1 OSS prediction schema."""
+    _write_empty_predictions(Path(path))
+
+
 def _predict_proba_in_batches(
     model: Any, X_test: pd.DataFrame, batch_size: int
 ) -> np.ndarray:
@@ -116,4 +121,3 @@ def train_rpt1_oss(
             f"bagging 1; inference batch size {inference_batch_size}."
         ),
     }, np.asarray(predictions)
-

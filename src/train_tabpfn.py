@@ -38,6 +38,11 @@ def _write_empty_predictions(path: Path) -> None:
     ).to_csv(path, index=False)
 
 
+def write_empty_tabpfn_predictions(path: str | Path) -> None:
+    """Write the stable empty TabPFN prediction schema."""
+    _write_empty_predictions(Path(path))
+
+
 def _release_accelerator_memory() -> None:
     """Best-effort cleanup between retries without requiring PyTorch."""
     gc.collect()

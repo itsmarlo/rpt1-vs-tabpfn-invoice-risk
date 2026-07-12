@@ -34,20 +34,21 @@ TabPFN and classic ML baselines.
 ## Current results
 
 The checked-in results were generated from the included synthetic dataset with a
-stratified 80/20 train/test split.
+stratified 80/20 train/test split. This run was produced in a headless sandbox,
+so optional native foundation-model workers were skipped.
 
-| Model | Accuracy | F1 | ROC AUC |
-|---|---:|---:|---:|
-| Logistic Regression | 0.765 | 0.400 | 0.737 |
-| Random Forest | 0.722 | 0.414 | 0.705 |
-| Gradient Boosting | 0.762 | 0.353 | 0.715 |
-| TabPFN | 0.743 | 0.267 | 0.741 |
-| SAP-RPT-1 OSS | 0.743 | 0.238 | 0.684 |
+| Model | Status | Accuracy | F1 | ROC AUC |
+|---|---|---:|---:|---:|
+| Logistic Regression | completed | 0.765 | 0.400 | 0.737 |
+| Random Forest | completed | 0.722 | 0.414 | 0.705 |
+| Gradient Boosting | completed | 0.762 | 0.353 | 0.715 |
+| TabPFN | skipped in sandbox | - | - | - |
+| SAP-RPT-1 OSS | skipped in sandbox | - | - | - |
 
-TabPFN has the strongest ROC AUC in this run, while Logistic Regression has the
-highest accuracy and Random Forest has the highest F1 score. The SAP-RPT-1 OSS
-result uses a small local context size intended for developer machines, not the
-larger hardware configuration recommended for best model performance.
+Among the completed baselines, Logistic Regression has the highest accuracy and
+ROC AUC, while Random Forest has the highest F1 score. Optional native
+foundation-model runs can still be attempted on a stable local machine by
+setting `RUN_NATIVE_OPTIONAL_MODELS=1`.
 
 ## Setup
 
@@ -87,10 +88,11 @@ hf auth login
 pip install -r requirements-rpt1-oss.txt
 ```
 
-The normal experiment command then attempts the OSS model automatically:
+The normal experiment command attempts the OSS model automatically on local
+machines where optional native workers are enabled:
 
 ```bash
-python -m src.run_experiment
+RUN_NATIVE_OPTIONAL_MODELS=1 python -m src.run_experiment
 ```
 
 The local configuration uses a 256-row context and bagging factor of 1. This is
@@ -104,6 +106,14 @@ Run the complete experiment from the project directory:
 
 ```bash
 python -m src.run_experiment
+```
+
+In headless or sandboxed environments, optional native TabPFN and SAP-RPT-1 OSS
+workers are skipped by default to avoid native runtime aborts. To attempt them
+on a stable local machine:
+
+```bash
+RUN_NATIVE_OPTIONAL_MODELS=1 python -m src.run_experiment
 ```
 
 Run tests:

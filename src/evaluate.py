@@ -3,6 +3,9 @@
 from pathlib import Path
 from typing import Any
 
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import (
@@ -79,4 +82,3 @@ def save_skipped_plot(output_path: str | Path, message: str) -> None:
     figure.tight_layout()
     figure.savefig(destination, dpi=150)
     plt.close(figure)
-
